@@ -3,7 +3,13 @@ from .models import Task
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
+
+def index(request):
+    return render(request,'tasks/index.html')
+
+
 
 def register(request):
     if request.method == 'POST':
