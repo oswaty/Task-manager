@@ -3,7 +3,7 @@ from .models import Task
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
-
+from django.http import Http404
 # Create your views here.
 
 def index(request):
@@ -28,14 +28,14 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('task_list')
+            return redirect('tasks:task_list')
     else:
         form = AuthenticationForm()
     return render(request, 'tasks/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('tasks:login')
 
 @login_required
 def task_list(request):
@@ -52,19 +52,27 @@ def task_create(request):
         return redirect('task_list')
     return render(request, 'tasks/task_create.html')
 
-
+@login_required
 def task_detail(request, pk):
     task = Task.objects.get(pk=pk)
+    if task.user != request.user:
+        raise Http404("You don't have permission to view this task.")
     return render(request, 'tasks/task_detail.html', {'task': task})
 
+@login_required
 def task_complete(request, pk):
     task = Task.objects.get(pk=pk)
+    if task.user != request.user:
+        raise Http404("You don't have permission to complete this task.")
     task.is_complete = True
     task.save()
-    return redirect('task_list') 
+    return redirect('task_list')
+
 
 def task_incomplete(request, pk):
     task = Task.objects.get(pk=pk)
+    if task.user!= request.user:
+        raise Http404("You don't have permission to complete this task.")
     task.is_complete = False
     task.save()
     return redirect('task_list')
