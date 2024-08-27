@@ -1,12 +1,18 @@
 {% extends "tasks/layout.html" %}
 {%block body%}
 <ul>
+        <h1>{{request.user}}</h1>
 {% for task in tasks%}
     
-        <li>task.tittle</li>
+        <li>
+                <a href={% url 'tasks:task_detail' task.pk %}>
+                        {{task.title}}
+                </a>
+        </li>
 {%empty%}
         <li>No Tasks</li>
 {% endfor %}
 </ul>
+<a href="{% url 'tasks:task_create' %}">Add Task</a>
 <a href={% url 'tasks:logout' %}>logout</a>
 {% endblock %}
