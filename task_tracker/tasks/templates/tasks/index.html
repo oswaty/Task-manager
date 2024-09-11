@@ -1,5 +1,14 @@
 {% extends "tasks/layout.html" %}
 {% block body %}
-<h1>Tasks</h1>
-<a href={% url 'tasks:login' %}>login</a>
+<p>
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!</p>
+    <a  type="button" class="btn btn-primary" href="{% url 'tasks:task_create' %}">Add Task</a>
+    <a  type="button" class="btn btn-primary" href="{% url 'tasks:task_list' %}">Task List</a>
+    <a  type="button" class="btn btn-danger" href="{% url 'tasks:logout' %}">Logout</a>
+{% else %}
+    <p>You are not logged in.</p>
+    <a  type="button" class="btn btn-primary" href="{% url 'tasks:login' %}">Login</a>
+{% endif %}
+</p>
 {% endblock  %}

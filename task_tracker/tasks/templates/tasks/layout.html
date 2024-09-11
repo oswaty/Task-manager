@@ -1,19 +1,42 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
     <link rel="stylesheet" href={% static 'tasks/styles.css' %}>
+    <link rel="stylesheet" href={% static 'tasks/bootstrap.min.css' %}>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
+    <title>Todo App</title>
 </head>
 <body>
-    <header>
-        <div class="user-info">
-            <span class="username">Welcome</span>
-            <button class="sign-out">Sign Out</button>
+    <div class="content-wrapper">
+        <header>
+            <div class="container">
+                <h1>Todo App</h1>
+            </div>
+        </header>
+        <nav>   
+        <div class="container">
+        <ul>
+            <li><a href="{% url 'tasks:index' %}">Home</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'tasks:task_list' %}">Tasks</a></li>
+            <li><a href="{% url 'tasks:logout' %}">logout</a></li>
+            {% endif %}
+            <!-- Add more navigation items as needed -->
+        </ul>
+    </div>
+    </nav>
+    <main>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
         </div>
-    </header>    
-    {%block body%}
-    {%endblock%}
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Todo App</p>
+        </div>
+    </footer>
 </body>
 </html>
