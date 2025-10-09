@@ -1,7 +1,7 @@
 {% extends "tasks/layout.html" %}
 {%block body%}
 <ul>
-        <h1>{{request.user}}</h1>
+        <h1>Welcome,{{request.user}}!</h1>
 {% for task in tasks%}
     
         <li>
